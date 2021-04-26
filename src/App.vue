@@ -9,8 +9,9 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
-@Component
+@Component // 类的装饰器
 export default class App extends Vue {
+
 }
 // export default Vue.extend({
 // })
