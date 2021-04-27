@@ -1,5 +1,5 @@
 # fall-vue  
-##### vu2 + ts demo
+##### vue2 + ts + element  demo
 
 ## Project setup
 ```
