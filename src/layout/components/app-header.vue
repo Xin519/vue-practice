@@ -41,7 +41,7 @@ export default Vue.extend({
   },
   methods: {
     handleLogout () {
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      this.$confirm('确认退出系统?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -55,13 +55,13 @@ export default Vue.extend({
           })
           this.$message({
             type: 'success',
-            message: '删除成功!'
+            message: '退出成功!'
           })
         })
         .catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: '已取消退出'
           })
         })
     },
