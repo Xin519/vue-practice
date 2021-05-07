@@ -83,6 +83,24 @@ const routes: Array<RouteConfig> = [
           requiresAuth: true // 设置自定义数据
         } // 默认空对象
 
+      },
+      {
+        path: '/menu/create',
+        name: 'menu-create',
+        component: () => import(/* webpackChunkName: 'menu-create-edit' */ '@/views/menu/create.vue'),
+        meta: {
+          requiresAuth: true // 设置自定义数据
+        } // 默认空对象
+
+      },
+      {
+        path: '/menu/:name/edit',
+        name: 'menu-edit',
+        component: () => import(/* webpackChunkName: 'menu-create-edit' */ '@/views/menu/edit.vue'),
+        meta: {
+          requiresAuth: true // 设置自定义数据
+        } // 默认空对象
+
       }
     ]
   },
