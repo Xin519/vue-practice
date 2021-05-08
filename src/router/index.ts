@@ -101,6 +101,26 @@ const routes: Array<RouteConfig> = [
           requiresAuth: true // 设置自定义数据
         } // 默认空对象
 
+      },
+      {
+        path: '/role/alloc-menu',
+        name: 'alloc-menu',
+        component: () => import(/* webpackChunkName: 'alloc-menu' */ '@/views/role/alloc-menu.vue'),
+        props: true, // 将路由路径参数映射到组件的 props 数据中
+        meta: {
+          requiresAuth: true // 设置自定义数据
+        } // 默认空对象
+
+      },
+      {
+        path: '/role/alloc-resource',
+        name: 'alloc-resource',
+        component: () => import(/* webpackChunkName: 'alloc-resource' */ '@/views/role/alloc-resource.vue'),
+        props: true, // 将路由路径参数映射到组件的 props 数据中
+        meta: {
+          requiresAuth: true // 设置自定义数据
+        } // 默认空对象
+
       }
     ]
   },
