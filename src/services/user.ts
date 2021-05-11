@@ -34,3 +34,12 @@ export const getUserInfo = () => {
     // }
   })
 }
+
+// 用户列表
+export const getUserPages = (data: any) => {
+  return request({
+    method: 'POST',
+    url: '/boss/user/getUserPages',
+    data
+  })
+}

@@ -37,3 +37,28 @@ export const getRoleById = (id: string | number) => {
     url: `/boss/role/${id}`
   })
 }
+
+// 全部角色
+export const getAllRoles = () => {
+  return request({
+    method: 'GET',
+    url: '/boss/role/all'
+  })
+}
+
+// 当前用户的角色
+export const getUserRoles = (userId: string | number) => {
+  return request({
+    method: 'GET',
+    url: `/boss/role/user/${userId}`
+  })
+}
+
+// 分配角色
+export const allocateUserRoles = (data: any) => {
+  return request({
+    method: 'POST',
+    url: '/boss/role/allocateUserRoles',
+    data
+  })
+}
