@@ -121,6 +121,36 @@ const routes: Array<RouteConfig> = [
           requiresAuth: true // 设置自定义数据
         } // 默认空对象
 
+      },
+      {
+        path: '/course/create',
+        name: 'course-create',
+        component: () => import(/* webpackChunkName: 'course-create' */ '@/views/course/create.vue'),
+        props: true, // 将路由路径参数映射到组件的 props 数据中
+        meta: {
+          requiresAuth: true // 设置自定义数据
+        } // 默认空对象
+
+      },
+      {
+        path: '/course/:courseId/edit',
+        name: 'course-edit',
+        component: () => import(/* webpackChunkName: 'course-edit' */ '@/views/course/edit.vue'),
+        props: true, // 将路由路径参数映射到组件的 props 数据中
+        meta: {
+          requiresAuth: true // 设置自定义数据
+        } // 默认空对象
+
+      },
+      {
+        path: '/course/:courseId/section',
+        name: 'course-section',
+        component: () => import(/* webpackChunkName: 'course-section' */ '@/views/course/section.vue'),
+        props: true, // 将路由路径参数映射到组件的 props 数据中
+        meta: {
+          requiresAuth: true // 设置自定义数据
+        } // 默认空对象
+
       }
     ]
   },
