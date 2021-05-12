@@ -21,7 +21,7 @@
             <el-option label="下架" value="0"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item style="float: right;">
+        <el-form-item style="float: right">
           <el-button type="primary" :disabled="loading" @click="handleFilter"
             >查询</el-button
           >
@@ -107,7 +107,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { getQueryCourses } from '@/services/course'
+import { getQueryCourses, changeState } from '@/services/course'
 import { Form } from 'element-ui'
 
 export default Vue.extend({
@@ -139,16 +139,25 @@ export default Vue.extend({
       this.totalCount = data.data.total
       this.loading = false
     },
-    handleReset () { // 重置
+    handleReset () {
+      // 重置
       (this.$refs['filter-form'] as Form).resetFields()
       this.loadCourses()
     },
-    handleFilter () { // 查询
+    handleFilter () {
+      // 查询
       this.filterParams.currentPage = 1
       this.loadCourses()
     },
-    onStateChange (item: any) { // 上架状态
-      console.log(item)
+    async onStateChange (course: any) {
+      // 上架状态
+      course.isStatusLoading = true
+      const { data } = await changeState({
+        courseId: course.id,
+        status: course.status
+      })
+      this.$message.success(`${course.status === 0 ? '下架' : '上架'}成功`)
+      course.isStatusLoading = false
     },
     handleCurrentChange () {
       console.log('handleCurrentChange')
