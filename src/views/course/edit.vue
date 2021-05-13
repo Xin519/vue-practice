@@ -10,7 +10,7 @@
           @click="goBack()"
           >返回</el-button
         > -->
-        <create-or-update />
+        <create-or-update is-edit :course-id="courseId" />
       </div>
     </el-card>
   </div>

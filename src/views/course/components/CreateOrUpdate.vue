@@ -15,7 +15,7 @@
             子组件内部处理click事件然后向外发送click事件：$emit("click".fn) -->
         </el-steps>
       </div>
-      <el-form label-width="80px">
+      <el-form label-width="100px">
         <!-- 基本信息 -->
         <div v-show="activeStep === 0">
           <el-form-item label="课程名称">
@@ -52,29 +52,12 @@
         </div>
         <!-- 课程封面 -->
         <div v-show="activeStep === 1">
-          <!--
-            upload 上传文件组件，它支持自动上传，你只需要把上传需要参数配置一下就可以了
-            -->
-          <!--
-            1. 组件需要根据绑定的数据进行图片预览
-            2. 组件需要把上传成功的图片地址同步到绑定的数据中
-            v-model 的本质还是父子组件通信
-              1. 它会给子组件传递一个名字叫 value 的数据（Props）
-              2. 默认监听 input 事件，修改绑定的数据（自定义事件）
-            -->
           <el-form-item label="课程封面">
-            <el-upload
-              class="avatar-uploader"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
-            >
-              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
+            <course-image v-model="course.courseListImg" :limit="5" />
           </el-form-item>
-          <el-form-item label="介绍封面"> </el-form-item>
+          <el-form-item label="介绍封面">
+            <course-image v-model="course.courseImgUrl" :limit="5" />
+          </el-form-item>
         </div>
         <!-- 销售信息 -->
         <div v-show="activeStep === 2">
@@ -144,7 +127,18 @@
         </div>
         <!-- 课程详情 -->
         <div v-show="activeStep === 4">
-          课程详情
+          <el-form-item label="课程详情">
+            <text-editor v-model="course.courseDescriptionMarkDown" />
+          </el-form-item>
+          <el-form-item label="是否发布">
+            <el-switch
+              v-model="course.status"
+              :active-value="1"
+              :inactive-value="0"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+            />
+          </el-form-item>
           <el-form-item style="text-align: center">
             <el-button type="primary" @click="handleSave">保存</el-button>
           </el-form-item>
@@ -163,10 +157,26 @@
 <script lang="ts">
 // 课程管理
 import Vue from 'vue'
+import { saveOrUpdateCourse, getCourseById } from '@/services/course'
+import CourseImage from './CourseImage.vue'
+import TextEditor from '@/components/TextEditor/index.vue'
+import moment from 'moment'
 
 export default Vue.extend({
   name: 'CreateOrUpdate',
-  components: {},
+  props: {
+    isEdit: {
+      type: Boolean,
+      default: false
+    },
+    courseId: {
+      type: [String, Number]
+    }
+  },
+  components: {
+    CourseImage,
+    TextEditor
+  },
   data () {
     return {
       activeStep: 0,
@@ -212,29 +222,31 @@ export default Vue.extend({
           amount: 0,
           stock: 0
         },
-        autoOnlineTime: '',
-        imageUrl: ''
+        autoOnlineTime: ''
       }
     }
   },
+  created () {
+    if (this.isEdit) {
+      this.loadCourse()
+    }
+  },
   methods: {
-    handleSave () {
-      console.log('handleSave')
+    async loadCourse () {
+      const { data } = await getCourseById(this.courseId)
+      const { activityCourseDTO } = data.data
+      activityCourseDTO.beginTime = moment(activityCourseDTO.beginTime).format('YYYY-MM-DD')
+      activityCourseDTO.endTime = moment(activityCourseDTO.endTime).format('YYYY-MM-DD')
+      this.course = data.data
     },
-    handleAvatarSuccess (res: any, file: any) {
-      // this.imageUrl = URL.createObjectURL(file.raw);
-    },
-    beforeAvatarUpload (file: any) {
-      const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
-
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+    async handleSave () {
+      const { data } = await saveOrUpdateCourse(this.course)
+      if (data.code === '000000') {
+        this.$message.success('保存成功')
+        this.$router.push('/course')
+      } else {
+        this.$message.error('保存失败')
       }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
-      }
-      return isJPG && isLt2M
     }
   }
 })
@@ -243,28 +255,5 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .el-step {
   cursor: pointer;
-}
-::v-deep.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-::v-deep .avatar-uploader .el-upload:hover {
-  border-color: #409eff;
-}
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  line-height: 178px;
-  text-align: center;
-}
-.avatar {
-  width: 178px;
-  height: 178px;
-  display: block;
 }
 </style>
