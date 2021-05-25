@@ -151,6 +151,15 @@ const routes: Array<RouteConfig> = [
           requiresAuth: true // 设置自定义数据
         } // 默认空对象
 
+      },
+      {
+        path: '/course/:courseId/video',
+        name: 'course-video',
+        component: () => import(/* webpackChunkName: 'course-video' */ '@/views/course/video.vue'),
+        props: true,
+        meta: {
+          requiresAuth: true // 设置自定义数据
+        } // 默认空对象
       }
     ]
   },
