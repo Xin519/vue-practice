@@ -52,6 +52,14 @@
             <el-button @click="handleShowEditLesson(data, node.parent.data)"
               >编辑</el-button
             >
+            <!-- params: {
+                    courseId, 课程id
+                  }, -->
+
+            <!-- query: { 查询参数
+                    sectionId: node.parent.id, 阶段id
+                    lessonId: data.id, 课时id
+                  }, -->
             <el-button
               type="success"
               @click="

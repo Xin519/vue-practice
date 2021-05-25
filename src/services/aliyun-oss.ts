@@ -4,14 +4,14 @@
 
 import request from '@/utils/request'
 
-export const aliyunImagUploadAddressAdnAuth = () => {
+export const aliyunImagUploadAddressAdnAuth = () => { // 获取image上传凭证
   return request({
     method: 'GET',
     url: '/boss/course/upload/aliyunImagUploadAddressAdnAuth.json'
   })
 }
 
-export const aliyunVideoUploadAddressAdnAuth = (params: any) => {
+export const aliyunVideoUploadAddressAdnAuth = (params: any) => { // 获取video上传凭证
   return request({
     method: 'GET',
     url: '/boss/course/upload/aliyunVideoUploadAddressAdnAuth.json',
@@ -19,7 +19,7 @@ export const aliyunVideoUploadAddressAdnAuth = (params: any) => {
   })
 }
 
-export const transCodeVideo = (data: any) => {
+export const transCodeVideo = (data: any) => { // 转码请求
   return request({
     method: 'POST',
     url: '/boss/course/upload/aliyunTransCode.json',
@@ -27,7 +27,7 @@ export const transCodeVideo = (data: any) => {
   })
 }
 
-export const getAliyunTransCodePercent = (lessonId: string | number) => {
+export const getAliyunTransCodePercent = (lessonId: string | number) => { // 转码进度
   return request({
     method: 'GET',
     url: '/boss/course/upload/aliyunTransCodePercent.json',
